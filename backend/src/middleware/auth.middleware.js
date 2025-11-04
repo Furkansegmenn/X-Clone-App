@@ -1,4 +1,4 @@
-export const protectRoute = (req, res, next) => {
+ export const protectRoute = (req, res, next) => {
     try {
         const auth = req.auth();
         if(!auth || !auth.isAuthenticated){

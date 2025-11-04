@@ -2,7 +2,7 @@ import asyncHandler from 'express-async-handler';
 import Comment from "../models/comment.model.js";
 import Post from "../models/post.model.js";
 import User from "../models/user.model.js";
-import { getAuth } from "@clerk/clerk-sdk-node";
+import { getAuth } from "@clerk/express";
 
 
 export const getCommentsByPost = asyncHandler(async (req, res) => {
@@ -17,9 +17,10 @@ export const getCommentsByPost = asyncHandler(async (req, res) => {
 
 export const createComment = asyncHandler(async (req, res) => {
     const {userId} = getAuth(req);
-    const {postId, content} = req.body;
+    const {content} = req.body;
+    const {postId} = req.params;
 
-    if(!content) {
+    if(!content || content.trim() === "") {
       return res.status(400).json({error: "Comment content is required"});
     }
     
@@ -29,19 +30,29 @@ export const createComment = asyncHandler(async (req, res) => {
       const post = await Post.findById(postId);
         if(!post) return res.status(404).json({error:"Post not found"});
 
-      const newComment = new Comment({
+      const Comment = new Comment({
         user: user._id,
         post: post._id,
         content
       });
 
-      await newComment.save();
+      await Comment.save();
+
+      if (post.user.toString() !== user._id.toString()) {
+        await Notification.create({
+          from: user._id,
+          to: post.user,
+          type: "comment",
+          post: postId,
+          comment: Comment._id
+        });
+      }
 
       // Add comment to post's comments array
-      post.comments.push(newComment._id);
+      post.comments.push(Comment._id);
       await post.save();
 
-      const populatedComment = await Comment.findById(newComment._id)
+      const populatedComment = await Comment.findById(Comment._id)
       .populate('user', 'username firstName lastName profilePicture');
 
       res.status(201).json({comment: populatedComment});
