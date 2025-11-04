@@ -10,7 +10,7 @@ router.get("/profile/:username", getUserProfile);
 //protected routes
 router.get("/sync", protectRoute, syncUser);
 router.get("/me", protectRoute, getCurrentUser);
-router.put("/update/:id", protectRoute, updateUserProfile);
+router.put("/update", protectRoute, updateUserProfile);
 router.post("/follow/:targetUserId", protectRoute, followUser);
 
 

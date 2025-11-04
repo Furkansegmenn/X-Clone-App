@@ -7,7 +7,7 @@ import { getAuth } from "@clerk/clerk-sdk-node";
 import cloudinary from "../config/cloudinary.js";
 
 export const getPosts = asyncHandler(async (req, res) => {
- const posts = Post.find()
+const posts = await Post.find()
  .sort({ createdAt: -1 })
  .populate('user', 'username firstName lastName profilePicture')
  .populate({
@@ -23,6 +23,7 @@ export const getPosts = asyncHandler(async (req, res) => {
 export const getPost = asyncHandler(async (req, res) => {
   const {postId} = req.params;
   const post = await Post.findById(postId)
+  
   .populate('user', 'username firstName lastName profilePicture')
   .populate({
     path: 'comments',
@@ -31,6 +32,7 @@ export const getPost = asyncHandler(async (req, res) => {
       select: 'username firstName lastName profilePicture'
     }   
   })
+if(!post) return res.status(404).json({error:"Post not found"});
   res.status(200).json({post});
 });
 
@@ -135,6 +137,6 @@ export const deletePost = asyncHandler(async (req, res) => {
   await Comment.deleteMany({post: post._id});
 
   await post.remove();
-  
+
   res.status(200).json({message: "Post deleted successfully"});
 });
