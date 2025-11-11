@@ -1,11 +1,17 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
+import SearchBar from '../../components/SearchBar'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import TrendingTopics from '../../components/TrendingTopics'
+import { TRENDING_TOPICS, TrendTopic } from '../../lib/trends'
 
 const SearchScreen = () => {
+    const [results, setResults] = useState<TrendTopic[]>(TRENDING_TOPICS)
     return (
-        <View>
-            <Text>SearchScreen</Text>
-        </View>
+        <SafeAreaView className="flex-1 bg-white">
+            <SearchBar onResultsChange={setResults} />
+            <TrendingTopics data={results} />
+
+        </SafeAreaView>
     )
 }
 
