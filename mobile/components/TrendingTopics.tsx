@@ -1,15 +1,15 @@
 import React from 'react'
-import { FlatList, View, Text, StyleSheet } from 'react-native'
+import { FlatList, View, Text } from 'react-native'
 import { TRENDING_TOPICS, TrendTopic } from '../lib/trends'
 
 const Item = ({ item, index }: { item: TrendTopic; index: number }) => {
     return (
-        <View style={styles.itemContainer}>
-            <Text style={styles.rank}>{index + 1}</Text>
-            <View style={styles.itemContent}>
-                {!!item.category && <Text style={styles.category}>{item.category} · Trending</Text>}
-                <Text style={styles.title}>{item.title}</Text>
-                {!!item.tweetsCount && <Text style={styles.count}>{item.tweetsCount.toLocaleString()} Tweets</Text>}
+        <View className="flex-row gap-3">
+            <Text className="w-6 text-center text-gray-500">{index + 1}</Text>
+            <View className="flex-1">
+                {!!item.category && <Text className="text-gray-500 text-xs mb-0.5">{item.category} · Trending</Text>}
+                <Text className="text-gray-900 text-base font-semibold">{item.title}</Text>
+                {!!item.tweetsCount && <Text className="text-gray-500 text-xs mt-0.5">{item.tweetsCount.toLocaleString()} Tweets</Text>}
             </View>
         </View>
     )
@@ -20,55 +20,14 @@ const keyExtractor = (t: TrendTopic) => t.id
 const TrendingTopics = ({ data }: { data?: TrendTopic[] }) => {
     return (
         <FlatList
-      data={data ?? TRENDING_TOPICS}
+            data={data ?? TRENDING_TOPICS}
             keyExtractor={keyExtractor}
             renderItem={({ item, index }) => <Item item={item} index={index} />}
-            ItemSeparatorComponent={() => <View style={styles.separator} />}
-            contentContainerStyle={styles.listContent}
+            ItemSeparatorComponent={() => <View className="h-px bg-gray-200 my-3" />}
+            contentContainerStyle={{ paddingHorizontal: 16, paddingVertical: 8 }}
             showsVerticalScrollIndicator={false}
         />
     )
 }
 
-const styles = StyleSheet.create({
-    listContent: {
-        paddingHorizontal: 16,
-        paddingVertical: 8
-    },
-    itemContainer: {
-        flexDirection: 'row',
-        gap: 12
-    },
-    rank: {
-        width: 24,
-        textAlign: 'center',
-        color: '#6B7280'
-    },
-    itemContent: {
-        flex: 1
-    },
-    category: {
-        color: '#6B7280',
-        fontSize: 12,
-        marginBottom: 2
-    },
-    title: {
-        color: '#111827',
-        fontSize: 16,
-        fontWeight: '600'
-    },
-    count: {
-        color: '#6B7280',
-        fontSize: 12,
-        marginTop: 2
-    },
-    separator: {
-        height: 1,
-        backgroundColor: '#E5E7EB',
-        marginVertical: 12
-    }
-})
-
 export default TrendingTopics
-
-

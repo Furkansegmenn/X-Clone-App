@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, TextInput, StyleSheet } from 'react-native'
+import { View, TextInput } from 'react-native'
 import { TRENDING_TOPICS, TrendTopic } from '../lib/trends'
 import Feather from '@expo/vector-icons/Feather'
 
@@ -33,9 +33,9 @@ const SearchBar = ({ placeholder = 'Search', onChangeText, value, onResultsChang
     }
 
     return (
-        <View style={styles.container}>
-            <View style={styles.inputRow}>
-                <Feather name="search" size={18} color="#6B7280" style={styles.icon} />
+        <View className="px-4 pt-3 pb-2 bg-white">
+            <View className="flex-row items-center h-10 rounded-lg bg-gray-100 border border-gray-200 px-2.5">
+                <Feather name="search" size={18} color="#6B7280" style={{ marginRight: 4 }} />
                 <TextInput
                     value={textValue}
                     onChangeText={handleChange}
@@ -44,40 +44,13 @@ const SearchBar = ({ placeholder = 'Search', onChangeText, value, onResultsChang
                     autoCapitalize="none"
                     autoCorrect={false}
                     clearButtonMode="while-editing"
-                    style={styles.input}
+                    className="flex-1 text-gray-900 pl-2"
                     returnKeyType="search"
                 />
             </View>
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        paddingHorizontal: 16,
-        paddingTop: 12,
-        paddingBottom: 8,
-        backgroundColor: 'white'
-    },
-    inputRow: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        height: 40,
-        borderRadius: 8,
-        backgroundColor: '#F3F4F6',
-        borderWidth: 1,
-        borderColor: '#E5E7EB',
-        paddingHorizontal: 10
-    },
-    input: {
-        flex: 1,
-        color: '#111827',
-        paddingLeft: 8
-    },
-    icon: {
-        marginRight: 4
-    }
-})
 
 export default SearchBar
 
