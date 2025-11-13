@@ -17,6 +17,8 @@ app.use(cors());
 app.use(express.json());
 
 app.use(clerkMiddleware());
+app.use(arcjetMiddleware);
+
 
 
 app.get("/", (req, res) => res.send("Hello from server"));
