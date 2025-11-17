@@ -7,6 +7,7 @@ import SignOutButton from '@/components/SignOutButton'
 import { useUserSync } from '@/hooks/useUserSycn';
 import { useUser } from "@clerk/clerk-expo";
 import PostComposer from '@/components/PostComposer';
+import PostsList from '@/components/PostsList';
 
 const HomeScreen = () => {
     const { user } = useUser();
@@ -42,7 +43,8 @@ const HomeScreen = () => {
             </View>
             <View className='flex-1'>
 
-                <PostComposer></PostComposer>
+                <PostComposer />
+                <PostsList />
             </View>
         </SafeAreaView>
     )

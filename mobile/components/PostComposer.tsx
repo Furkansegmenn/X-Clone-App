@@ -1,5 +1,4 @@
 import { useCreatePost } from "@/hooks/useCreatePost";
-import { useUser } from "@clerk/clerk-expo";
 import { Feather } from "@expo/vector-icons";
 import { View, Text, Image, TextInput, TouchableOpacity, ActivityIndicator } from "react-native";
 

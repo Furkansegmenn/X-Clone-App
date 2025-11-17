@@ -11,7 +11,13 @@ export const useUserSync = () =>{
     const syncUserMutation = useMutation({
         mutationFn: () => userApi.syncUser(api),
         onSuccess: (response: any) => console.log("User synced successfully:", response.data.user),
-        onError: (error) => console.error("User sync failed: " , error)
+        onError: (error: any) => {
+            console.error("User sync failed:");
+            console.error("Error message:", error.message);
+            console.error("Error response:", error.response?.data);
+            console.error("Error status:", error.response?.status);
+            console.error("API URL:", error.config?.url);
+        }
     })
 
     useEffect(() => {

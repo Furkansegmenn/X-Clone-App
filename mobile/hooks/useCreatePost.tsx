@@ -4,7 +4,7 @@ import { Alert } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { useApiClient } from "../utils/api";
 
-interface PostData {
+export interface PostData {
     content: string
     imageUri?: string
 }
